@@ -1,5 +1,12 @@
 # SuperLayer php
 
+#### Table of content
+
+- [What is?](#what-is)
+- [Configure child class](#cofigure-child-class)
+- [Defined methods](#defined-methods)
+- [Demo](#demo)
+
 ## What is?
 
 SuperLayer is a pattern that allows to create diferent methods in the parent class, 
@@ -27,7 +34,7 @@ define the deferent methods you might use to manage your DataBase.
         }
     }
 ```
-### define methods
+### Defined methods
 **getAll()**
 ```php
     //example 1
