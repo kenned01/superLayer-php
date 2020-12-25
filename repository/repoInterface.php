@@ -2,8 +2,8 @@
 	
 interface Repository {
   public function add(Array $data);
-  public function delete(int $data, String $identifier);
+  public function delete(Array $keys);
   public function update(Array $data);
-  public function getOne(int $data, String $identifier);
-  public function getAll();
+  public function getOne(Array $keys, Array $colums = []);
+  public function getAll(Array $colums = []);
 }

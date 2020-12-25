@@ -6,7 +6,7 @@ class Database {
   private $host = "localhost";
   private $usuario = "root";
   private $password = "";
-  private $nombre_bd = "test";
+  private $nombre_bd = "p_curso";
     
   private $dbh; // Database Handler
   private $stmt;  //Statement
