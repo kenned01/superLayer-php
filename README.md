@@ -1,9 +1,11 @@
 # SuperLayer php
 
 ## What is?
+
 SuperLayer is a pattern that allows to create diferent methods in the parent class, 
 so that the child class may inherit these methods. In this pattern `superLayer` we 
 define the deferent methods you might use to manage your DataBase.
+
 ----
 
 ## cofigure child-class
