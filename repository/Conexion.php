@@ -1,6 +1,7 @@
 <?php
 	
-//Clase para conectarse a la base de datos y ejecutar consultas PDO
+//Clase to connect the Database
+// using PDO
   
 class Database {
   private $host = "localhost";
@@ -12,6 +13,10 @@ class Database {
   private $stmt;  //Statement
   private $error;
 
+  public const INT_TYPE = PDO::PARAM_INT;
+  public const BOOL_TYPE = PDO::PARAM_BOOL;
+  public const NULL_TYPE = PDO::PARAM_NULL;
+  public const STR_TYPE = PDO::PARAM_STR;
 
   function __construct()  {
       // Primero configuramos la conecion
@@ -33,70 +38,92 @@ class Database {
 
   }
 
-
-
-  // Preparamos la consulta
+  /**
+   * Set query
+   * @param String $sql 
+  */
   public function query($sql){
     $this->stmt = $this->dbh->prepare($sql);
   }
 
+  /**
+   * Show the full query
+  */
   public function showQuery(){
     return  $this->stmt->fullQuery;
   }
 
-  // Vinculamos la consulta con bind
-  public function bind($parametro, $valor, $tipo=null){
+  /**
+   * Include all the data into the query by binding them
+   * @param Param | String | Param Name
+   * @param Value | Any Type | Param Value
+   * @param Type  | Param Type | opcional
+  */
+  public function bind($param, $value, $type=null){
 
-    if (is_null($tipo)) {
+    if (is_null($type)) {
       switch (true) {
-        case is_int($valor):
-          $tipo = PDO::PARAM_INT;
+        case is_int($value):
+          $type = PDO::PARAM_INT;
         break;
 
-        case is_bool($valor):
-          $tipo = PDO::PARAM_BOOL;
+        case is_bool($value):
+          $type = PDO::PARAM_BOOL;
         break;
 
-        case is_null($valor):
-          $tipo = PDO::PARAM_NULL;
+        case is_null($value):
+          $type = PDO::PARAM_NULL;
         break;
         
         default:
-            $tipo = PDO::PARAM_STR;
+            $type = PDO::PARAM_STR;
         break;
       }
     }
 
-    $this->stmt->bindValue($parametro, $valor , $tipo);
+    $this->stmt->bindValue($param, $value , $type);
 
   }
 
-  // Ejecutamos la consulta
+  /**
+   * Execute the estament
+  */
   public function execute(){
-  
-    return $this->stmt->execute();
+    $this->stmt->execute();
   }
 
-  // Ultimo_ID_insertado
+  /**
+   * Return the id of the last inserted row
+   * @return Number
+  */
   public function lastId(){
     $this->execute();
     return   $this->dbh->lastInsertId(); 
   }
 
-  // Devuelve varios registros
-  public function registros(){
+  /**
+   * Return the multiples rows
+   * @return Object-Array
+  */
+  public function fetchAll(){
     $this->execute();
     return $this->stmt->fetchAll(PDO::FETCH_OBJ);
   }	
 
-  // Devuelve un solo Registro
-  public function registro(){
+  /**
+   * Return One row
+   * @return Object
+  */
+  public function fetchOne(){
     $this->execute();
     return $this->stmt->fetch(PDO::FETCH_OBJ);
   }
 
-  // Devuelve total de registros 
-  public function contar(){
+  /**
+   * Return number of rows
+   * @return Number
+  */
+  public function count(){
     $this->execute();
     return $this->stmt->rowCount();
   }

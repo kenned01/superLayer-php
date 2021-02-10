@@ -149,7 +149,7 @@ class Superlayer implements Repository  {
       $this->db->query("SELECT $columnsSQl FROM `$this->table` WHERE `$keys2[0]` = :data ;");
       $this->db->bind(":data", $keys[ $keys2[0] ]);
       
-      return $this->db->registro();
+      return $this->db->fetchOne();
     } catch (PDOException $th) {
       
       if($this->showError){
@@ -171,7 +171,7 @@ class Superlayer implements Repository  {
       $columnsSQl = $this->columnsQuery($columns);
       
       $this->db->query("SELECT $columnsSQl FROM `$this->table`;");
-      return $this->db->registros();
+      return $this->db->fetchAll();
     } catch (PDOException $th) {
       
       if($this->showError){
@@ -205,4 +205,35 @@ class Superlayer implements Repository  {
     return $columnsSQl;
   }
 
+  /**
+   * Sanatize parameters
+   * @param Array $data all values
+   * @example "" ["id", "trash"]
+   * @param Array $values get just the required values
+   * @example "" ["id"]
+  */
+  public function sanitize($data = [], $values = []){
+    $dataSanitize = [];
+    foreach($values as $key){
+      $dataSanitize[$key] = $data[$key];
+    }
+  
+    return $dataSanitize;
+  }
+
+  /**
+   * Return the id of the last inserted row
+  */
+  public function getLastId(){
+    try {
+      return $this->db->lastId();
+    } catch (PDOException $th) {
+      
+      if($this->showError){
+        echo $th->getMessage();
+      }
+
+      return 0;
+    }
+  }
 }
